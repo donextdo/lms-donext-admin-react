@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import CreateUser from "../../components/Authentication/authentication/createNewUser";
 import CreateNewClass from "../Classes/CreateNewClass";
 import LessonTypeWiseList from "./lesson-type-wise-list";
+import CreateNerLesson from "./createNewLesson";
 function LessonCreation() {
   const options = ["Download PDF", "Download Excel"];
 
@@ -31,14 +32,14 @@ function LessonCreation() {
 
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const [showAddClass, setshowAddClass] = useState(false);
+  const [showAddLesson, setShowAddLesson] = useState(false);
 
   const handleChangeIndex = (index: any) => {
     setValue(index);
   };
 
-  const handleAddlass = (id: any) => {
-    setshowAddClass(true);
+  const handleAddLesson = (id: any) => {
+    setShowAddLesson(true);
   };
 
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
@@ -54,7 +55,7 @@ function LessonCreation() {
                 <Button
                   className="mr-1"
                   variant="contained"
-                  onClick={handleAddlass}
+                  onClick={handleAddLesson}
                   style={{
                     backgroundColor: "#8b0000",
                     color: "white",
@@ -135,7 +136,7 @@ function LessonCreation() {
         </SwipeableViews>
       </div>
 
-      {showAddClass && <CreateNewClass setshowAddClass={setshowAddClass} />}
+      {showAddLesson && <CreateNerLesson setShowAddLesson={setShowAddLesson} />}
     </MainCard>
   );
 }
@@ -151,7 +152,7 @@ const data = [
       course: "Science",
         class: "6",
       teacher:"Lakmali Perera",
-        videoContent: "available",
+        videoContent: "Available",
     },
     {
       id: 2,
@@ -161,7 +162,7 @@ const data = [
       course: "Science",
         class: "6",
       teacher:"Suneth Silva",
-        videoContent: "available",
+        videoContent: "Available",
     },
     {
       id: 3,
@@ -171,7 +172,7 @@ const data = [
       course: "Science",
         class: "8",
       teacher:"Lakmali Perera",
-        videoContent: "not available",
+        videoContent: "Not Available",
     },
     {
       id: 4,
@@ -181,7 +182,7 @@ const data = [
       course: "Science",
         class: "2",
       teacher:"Darshana Perera",
-        videoContent: "available",
+        videoContent: "Available",
     },
     {
       id: 5,
@@ -191,7 +192,7 @@ const data = [
       course: "Science",
         class: "2",
       teacher:"Lakmali Perera",
-        videoContent: "available",
+        videoContent: "Available",
     },
   ];
   
