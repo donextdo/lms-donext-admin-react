@@ -62,7 +62,7 @@ const dashboard = {
             id: 'lessons',
             title: 'Lessons',
             type: 'item',
-            // url: '/users',
+            url: '/lessons',
             icon: icons.user,
             breadcrumbs: false
         },
