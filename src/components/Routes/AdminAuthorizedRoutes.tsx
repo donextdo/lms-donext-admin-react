@@ -11,6 +11,8 @@ const UpdateUser = Loadable(lazy(() => import('../../components/Authentication/a
 const UerCreation = Loadable(lazy(() => import('../../components/User/')));
 const CourceCreation = Loadable(lazy(()=>import('../../components/Cource')));
 const ClassCreation = Loadable(lazy(() => import('../../components/Classes/')));
+const LessonCreation = Loadable(lazy(() => import('../../components/Lesson/')));
+
 const AdminAuthorizedRoutes =
     [
         {
@@ -32,6 +34,10 @@ const AdminAuthorizedRoutes =
                 {
                     path: 'classes',
                     element: <ClassCreation/>
+                },
+                {
+                    path: 'lessons',
+                    element: <LessonCreation/>
                 },
                 // {
                 //     path: 'reviews-pending',
