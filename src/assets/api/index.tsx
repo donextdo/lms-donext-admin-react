@@ -12,6 +12,7 @@ export const signIn = (formData: any) => {
 };
 
 export const signUp = (formData: { fname: string, lname: string, email: string, mobile: string, username: string, password: string }) => {
+    console.log("form data",formData);
     let postData = {
         firstName: formData.fname,
         lastName: formData.lname,

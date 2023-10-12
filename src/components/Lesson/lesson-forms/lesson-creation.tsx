@@ -41,9 +41,9 @@ function LessonCreation({ ...others }) {
   const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
   const [showPassword, setShowPassword] = useState(false);
 
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedClass, setSelectedClass] = useState("");
-  const [selectedTeacher, setSelectedTeacher] = useState("");
+  // const [selectedCourse, setSelectedCourse] = useState("");
+  // const [selectedClass, setSelectedClass] = useState("");
+  // const [selectedTeacher, setSelectedTeacher] = useState("");
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState({ label: "", color: "" });
@@ -71,9 +71,9 @@ function LessonCreation({ ...others }) {
       initialValues={{
         lname: "",
         description: "",
-        course: selectedCourse,
-        class: selectedClass,
-        teacher: selectedTeacher,
+        course: "",
+        class: "",
+        teacher: "",
         videoContent: "", 
         videoUpload: undefined,
         lessonMaterial: [], // Initialize lessonMaterial as an array to store multiple files
@@ -229,7 +229,7 @@ function LessonCreation({ ...others }) {
                   value={values.course}
                   onBlur={handleBlur}
                   onChange={(e) => {
-                    setSelectedCourse(e.target.value); // Update selectedCourse when the value changes
+                    // setSelectedCourse(e.target.value); // Update selectedCourse when the value changes
                     handleChange(e);
                   }}
                   name="course"
@@ -265,7 +265,7 @@ function LessonCreation({ ...others }) {
                   value={values.class}
                   onBlur={handleBlur}
                   onChange={(e) => {
-                    setSelectedClass(e.target.value); // Update selectedclass when the value changes
+                    // setSelectedClass(e.target.value); // Update selectedclass when the value changes
                     handleChange(e);
                   }}
                   name="class"
@@ -302,7 +302,7 @@ function LessonCreation({ ...others }) {
               value={values.teacher}
               onBlur={handleBlur}
               onChange={(e) => {
-                setSelectedTeacher(e.target.value); // Update selectedteacher when the value changes
+                // setSelectedTeacher(e.target.value); // Update selectedteacher when the value changes
                 handleChange(e);
               }}
               name="teacher"
