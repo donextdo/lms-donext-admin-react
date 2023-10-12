@@ -150,7 +150,7 @@ const data = [
       description:
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores minus perferendis nesciunt! Eveniet eligendi omnis architecto iure, temporibus corrupti, a exercitationem debitis sunt aspernatur aperiam esse corporis, quam mollitia commodi!",
       course: "Science",
-        class: "6",
+        class: "Grade 6",
       teacher:"Lakmali Perera",
         videoContent: "Available",
     },
@@ -160,7 +160,7 @@ const data = [
       description:
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores minus perferendis nesciunt! Eveniet eligendi omnis architecto iure, temporibus corrupti, a exercitationem debitis sunt aspernatur aperiam esse corporis, quam mollitia commodi!",
       course: "Science",
-        class: "6",
+        class: "Grade 6",
       teacher:"Suneth Silva",
         videoContent: "Available",
     },
@@ -170,7 +170,7 @@ const data = [
       description:
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores minus perferendis nesciunt! Eveniet eligendi omnis architecto iure, temporibus corrupti, a exercitationem debitis sunt aspernatur aperiam esse corporis, quam mollitia commodi!",
       course: "Science",
-        class: "8",
+        class: "Grade 8",
       teacher:"Lakmali Perera",
         videoContent: "Not Available",
     },
@@ -180,7 +180,7 @@ const data = [
       description:
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores minus perferendis nesciunt! Eveniet eligendi omnis architecto iure, temporibus corrupti, a exercitationem debitis sunt aspernatur aperiam esse corporis, quam mollitia commodi!",
       course: "Science",
-        class: "2",
+        class: "Grade 2",
       teacher:"Darshana Perera",
         videoContent: "Available",
     },
@@ -190,7 +190,7 @@ const data = [
       description:
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores minus perferendis nesciunt! Eveniet eligendi omnis architecto iure, temporibus corrupti, a exercitationem debitis sunt aspernatur aperiam esse corporis, quam mollitia commodi!",
       course: "Science",
-        class: "2",
+        class: "Grade 2",
       teacher:"Lakmali Perera",
         videoContent: "Available",
     },

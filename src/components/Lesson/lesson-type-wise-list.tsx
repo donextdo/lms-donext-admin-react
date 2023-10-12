@@ -13,6 +13,7 @@ import {openErrorDialog} from "../../utils/ui-components/pop-ups/ErrorDialog";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateCourse from '../Cource/updateCourse';
+import UpdateLesson from './updateLesson';
 
 LessonTypeWiseList.propTypes = {
     data: PropTypes.array.isRequired
@@ -30,12 +31,12 @@ function LessonTypeWiseList({ data }: any) {
     const [rowCountState, setRowCountState] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState(null); 
-    const [onCloseUpdateCourseModal, setOnCloseUpdateCourseModal] = useState(false);
+    const [onCloseUpdateCourseModal, setOnCloseUpdateLessonModal] = useState(false);
 
 
-    const updateCourse = (selectedRow : any) => {
+    const updateLesson = (selectedRow : any) => {
         alert('Row data : ' + JSON.stringify(selectedRow))
-        setOnCloseUpdateCourseModal(true);
+        setOnCloseUpdateLessonModal(true);
         setSelectedRowData(selectedRow);
     };
 
@@ -100,7 +101,7 @@ function LessonTypeWiseList({ data }: any) {
         {
             field: "teacher",
             filterable: true,
-            headerName: "Tracher",
+            headerName: "Teacher",
             sortable: true,
             disableExport: false,
             minWidth: 150,
@@ -129,7 +130,7 @@ function LessonTypeWiseList({ data }: any) {
                                 aria-label="edit"
                                 size="large"
                                 color="info"
-                                onClick={() => updateCourse(params.row)}
+                                onClick={() => updateLesson(params.row)}
                                 >
                                 <EditIcon />
                             </IconButton>
@@ -194,7 +195,7 @@ function LessonTypeWiseList({ data }: any) {
             />
 
             {onCloseUpdateCourseModal && (
-                <UpdateCourse setOnCloseUpdateCourseModal={setOnCloseUpdateCourseModal} selectedRowData={selectedRowData} />
+                <UpdateLesson setOnCloseUpdateLessonModal={setOnCloseUpdateLessonModal} selectedRowData={selectedRowData} />
             )}
            
         </Box>
