@@ -1,26 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import MainCard from "../../utils/ui-components/MainCard";
-import SwipeableViews from 'react-swipeable-views';
-import {TabPanel} from '../../utils/cssStyles';
+import SwipeableViews from "react-swipeable-views";
+import { TabPanel } from "../../utils/cssStyles";
 import UserTypeWiseList from "./user-type-wise-list";
-import {useTheme} from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import moment from "moment";
-import {formatMobile, getSalaryRange} from "../../utils/utils";
-import {Grid, Typography, Button, useMediaQuery } from "@mui/material";
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Link} from "react-router-dom";
-import CreateNewUser from './CreateNewUser';
+import { formatMobile, getSalaryRange } from "../../utils/utils";
+import { Grid, Typography, Button, useMediaQuery } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
+import CreateNewUser from "./CreateNewUser";
+import CreateNewTeacher from "./CreateNewTeacher";
+import CreateNewStudent from "./CreateNewStudent";
+import CreateNewStaff from "./CreateNewStaff";
 function UserCreation() {
+  const options = ["Download PDF", "Download Excel"];
 
-    const options = [
-        'Download PDF',
-        'Download Excel',
-      ];
-
-    const ITEM_HEIGHT = 48;
+  const ITEM_HEIGHT = 48;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,115 +30,120 @@ function UserCreation() {
     setAnchorEl(null);
   };
 
-    const theme = useTheme();
-    const [value, setValue] = useState(0);
-    const [showAddUser, setShowAddUser] = useState(false);
-    
-    
-    const handleChangeIndex = (index: any) => {
-        setValue(index);
-    };
+  const theme = useTheme();
+  const [value, setValue] = useState(0);
+  const [showAddUser, setShowAddUser] = useState(false);
 
-    const handleAdduser = (id:any) => {
-        setShowAddUser(true);
+  const handleChangeIndex = (index: any) => {
+    setValue(index);
+  };
 
-    }
+  const handleAdduser = (id: any) => {
+    setShowAddUser(true);
+  };
 
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    return (
-        
-        <MainCard title="Users" darkTitle={true} secondary={
-            <Grid container justifyContent="flex-end">
-              <Grid item >
-                <Grid item container direction="column" alignItems="center" xs={12}>
-                  <Grid item>
-                    <Button
-                      className="mr-1"
-                      variant="contained"
-                      onClick={handleAdduser}
-                      style={{
-                        backgroundColor: '#8b0000',
-                        color: 'white',
-                      }}
-                    >
-                      New User +
-                    </Button>
-                  </Grid>
-                </Grid>
+  const matchDownSM = useMediaQuery(theme.breakpoints.down("md"));
+  return (
+    <MainCard
+      title="Users"
+      darkTitle={true}
+      secondary={
+        <Grid container justifyContent="flex-end">
+          <Grid item>
+            <Grid item container direction="column" alignItems="center" xs={12}>
+              <Grid item>
+                <Button
+                  className="mr-1"
+                  variant="contained"
+                  onClick={handleAdduser}
+                  style={{
+                    backgroundColor: "#8b0000",
+                    color: "white",
+                  }}
+                >
+                  New User +
+                </Button>
               </Grid>
-             
-                
             </Grid>
-
-            
-            
-          }>
-
-
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '-20px', justifyContent:'space-between' }}>
-        <Typography variant="h4" style={{fontWeight: 'bold', marginLeft: '2rem' }}>
-            All Users
+          </Grid>
+        </Grid>
+      }
+    >
+      <div
+        style={{ display: "flex", alignItems: "center", marginTop: "-20px" }}
+      >
+        <Typography
+          variant="h4"
+          style={{
+            fontWeight: "bold",
+            marginRight: "68.7rem",
+            marginLeft: "2rem",
+          }}
+        >
+          All Users
         </Typography>
-        
+
         <div>
-            <IconButton
+          <IconButton
             aria-label="more"
             id="long-button"
-            aria-controls={open ? 'long-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
+            aria-controls={open ? "long-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
             aria-haspopup="true"
             onClick={handleClick}
-            >
+          >
             <MoreVertIcon />
-            </IconButton>
-            <Menu
+          </IconButton>
+          <Menu
             id="long-menu"
             MenuListProps={{
-                'aria-labelledby': 'long-button',
+              "aria-labelledby": "long-button",
             }}
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
             PaperProps={{
-                style: {
+              style: {
                 maxHeight: ITEM_HEIGHT * 4.5,
-                width: '20ch',
-                },
+                width: "20ch",
+              },
             }}
-            >
+          >
             {options.map((option) => (
-                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+              <MenuItem
+                key={option}
+                selected={option === "Pyxis"}
+                onClick={handleClose}
+              >
                 {option}
-                </MenuItem>
+              </MenuItem>
             ))}
-            </Menu>
+          </Menu>
         </div>
-        </div>
-        
-        <div style={{ marginTop: '-25px' }}>
+      </div>
+
+      <div style={{ marginTop: "-25px" }}>
         <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <UserTypeWiseList data={data}/>
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <UserTypeWiseList data={[]}/>
-                </TabPanel>
-            </SwipeableViews>
-        </div>
-            
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <UserTypeWiseList data={data} />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <UserTypeWiseList data={[]} />
+          </TabPanel>
+        </SwipeableViews>
+      </div>
 
+      {showAddUser && <CreateNewUser setShowAddUser={setShowAddUser} />}
 
-            {showAddUser && (
-                <CreateNewUser setShowAddUser={setShowAddUser} />
-            )}
-            
-        </MainCard>
-    );
+      {/* {showAddUser && (
+                <CreateNewTeacher setShowAddUser={setShowAddUser} />
+            )} */}
+    </MainCard>
+  );
 }
 
 export default UserCreation;
@@ -253,6 +257,4 @@ const data = [
     username: "Yasith",
     email: "yasith@gmail.com",
   },
-  ];
-  
-  
+];

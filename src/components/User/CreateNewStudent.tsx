@@ -16,23 +16,24 @@ import AuthCardWrapper from "../Authentication/AuthCardWrapper";
 import Loader from "../../utils/ui-components/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import UserCreation from "./user-form/user-creation";
+import StudentCreation from "./user-form/student-creation";
 
-function CreateNewUser({ setShowAddUser }: any) {
+// ... (imports)
+
+function CreateNewStudent({ setShowAddStudent }: any) {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("sm"));
-
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
-    setShowAddUser(false);
+    setShowAddStudent(false);
   };
 
   return (
     <Dialog
       open={true}
       onClose={handleClose}
-      maxWidth="sm"
+      maxWidth="sm" // Adjust the maxWidth as needed
       fullWidth={true}
       PaperProps={{
         style: {
@@ -51,7 +52,7 @@ function CreateNewUser({ setShowAddUser }: any) {
             color={theme.palette.primary.main}
             variant={matchDownSM ? "h3" : "h2"}
           >
-            Create A New User
+            Add Student Details
           </Typography>
           <Button
             style={{
@@ -79,7 +80,8 @@ function CreateNewUser({ setShowAddUser }: any) {
             justifyContent="center"
           >
             <Grid item>
-              <UserCreation handleClose={handleClose} /> {/* Pass handleClose function */}
+              {/* Pass setShowAddStudent function to StudentCreation */}
+              <StudentCreation setShowAddStudent={setShowAddStudent} />
             </Grid>
             <Grid item xs={12}>
               <Divider />
@@ -92,4 +94,4 @@ function CreateNewUser({ setShowAddUser }: any) {
   );
 }
 
-export default CreateNewUser;
+export default CreateNewStudent;

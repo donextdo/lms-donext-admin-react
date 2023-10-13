@@ -55,7 +55,7 @@ const dashboard = {
             title: 'Classes',
             type: 'item',
             url: '/classes',
-            icon: icons.className,
+            icon: icons.user,
             breadcrumbs: false
         },
         {
