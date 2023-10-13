@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import {useNavigate} from 'react-router-dom';
 import UpdateUser from '../../components/Authentication/authentication/updateUser '
-import * as api from "../../assets/api";
+import * as api from "../../assets/api/class/index";
 import {openSuccessDialog} from "../../utils/ui-components/pop-ups/SuccessDialog";
 import {openErrorDialog} from "../../utils/ui-components/pop-ups/ErrorDialog";
 import IconButton from '@mui/material/IconButton';
@@ -41,9 +41,9 @@ function ClassTypeWiseList({ data }: any) {
     };
 
 
-    const deleteClass = async (classid: number) => {
+    const deleteClass = async (classId: number) => {
         try {
-            const response = await api.deleteUser(classid);
+            const response = await api.deleteClass(classId);
             if (response.status === 204) {
                 openSuccessDialog(data.status, data.comment);
                 navigate("/classes");

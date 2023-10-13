@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import {useNavigate} from 'react-router-dom';
 import UpdateUser from '../../components/Authentication/authentication/updateUser '
-import * as api from "../../assets/api";
+import * as api from "../../assets/api/lesson/index";
 import {openSuccessDialog} from "../../utils/ui-components/pop-ups/SuccessDialog";
 import {openErrorDialog} from "../../utils/ui-components/pop-ups/ErrorDialog";
 import EditIcon from '@mui/icons-material/Edit';
@@ -41,9 +41,9 @@ function LessonTypeWiseList({ data }: any) {
     };
 
 
-    const deleteLesson = async (userId: number) => {
+    const deleteLesson = async (lessonId: number) => {
         try {
-            const response = await api.deleteUser(userId);
+            const response = await api.deleteLesson(lessonId);
             if (response.status === 204) {
                 openSuccessDialog(data.status, data.comment);
                 navigate("/courses");
