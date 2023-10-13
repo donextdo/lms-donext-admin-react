@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import * as Yup from "yup";
-import * as api from "../../../assets/api/index";
+import * as api from "../../../assets/api/class/index";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -64,7 +64,7 @@ function ClassCreation({ ...others }) {
       }}
       validationSchema={Yup.object().shape({
         subject: Yup.string().required("Subject is required"),
-        grade: Yup.string().required("Grade is required"),
+        // grade: Yup.string().required("Grade is required"),
         medium: Yup.string().required("Medium is required"),
         teacher: Yup.string().required("Instructor name is required"),
         day: Yup.string().required("Class Date is required"),
@@ -76,13 +76,16 @@ function ClassCreation({ ...others }) {
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
           if (values) {
+
+            console.log("values", values);
+            
             setStatus({ success: true });
             setSubmitting(false);
 
-            // const { data } = await api.signUp(values);
+            const { data } = await api.createClass(values);
 
-            // openSuccessDialog(data.status, data.comment);
-            navigate("/login");
+            openSuccessDialog(data.status, data.comment);
+            navigate("/users");
           }
         } catch (err: any) {
           setStatus({ success: false });

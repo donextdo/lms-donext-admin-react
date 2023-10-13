@@ -18,7 +18,7 @@ import {
   } from "@mui/material";
   import { useTheme } from "@mui/material/styles";
   import * as Yup from "yup";
-  import * as api from "../../../assets/api/index";
+  import * as api from "../../../assets/api/lesson/index";
   import { Formik } from "formik";
   import React, { useEffect, useState } from "react";
   import { useSelector } from "react-redux";
@@ -48,7 +48,7 @@ import {
       <Formik
         initialValues={{
           lname: selectedRowData.lname || "",
-          totclasses: selectedRowData.totclasses || "",
+          // totclasses: selectedRowData.totclasses || "",
           description: selectedRowData.description || "",
           course: selectedRowData.course|| "",
           class: selectedRowData.class|| "",
@@ -56,32 +56,89 @@ import {
           lessonMaterial:selectedRowData.lessonMaterial || "",
           videoContent: selectedRowData.videoContent === "Available" ? "Available" : "Not Available",
           videoUpload:selectedRowData.videoUpload || "",
-          CreatedDate: selectedRowData.CreatedDate || "",
+          // CreatedDate: selectedRowData.CreatedDate || "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
           lname: Yup.string().required("Course Name is required"),
-          totclasses: Yup.string().required("Total Classes is required"),
           description: Yup.string().required("Description is required"),
           course: Yup.string().required("Course is required"),
           class: Yup.string().required("Class is required"),
           teacher: Yup.string().required("Teacher is required"),
-          enrollmentStatus: Yup.string()
-            .required("Enrollment Status is required")
-            .oneOf(["Open", "Close"], "Invalid Enrollment Status"), // Valid values are 'Open' or 'Close'
-          CreatedDate: Yup.string()
-          //   .matches(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format. Use YYYY-MM-DD")
-            .required("Created Date is required"),
+          videoContent: Yup.string()
+            .required("Lesson Material is required")
+            .oneOf(["Available", "Not Available"], "Invalid Lesson Material"), 
+            videoUpload: Yup.mixed()
+            // .required("Video upload is required")
+            .test(
+              "fileSize",
+              "File size is too large (maximum is 250 MB)",
+              (value) => {
+                if (value instanceof File && value.size) {
+                  return value.size <= 1024 * 1024 * 250; // 250 MB
+                }
+                return true; // Allow undefined values (when no file is selected)
+              }
+            )
+            .test(
+              "fileType",
+              "Invalid file type. Only MP4, MPEG, and QuickTime formats are allowed.",
+              (value) => {
+                if (value instanceof File && value.type) {
+                  const allowedFormats = [
+                    "video/mp4",
+                    "video/mpeg",
+                    "video/quicktime",
+                    "audio/mpeg",
+                    "audio/wav",
+                    "audio/m4a",
+                  ];
+                  return allowedFormats.includes(value.type);
+                }
+                return true; // Allow undefined values (when no file is selected)
+              }
+            ),  
+            lessonMaterial: Yup.array().of(
+              Yup.mixed()
+                .test(
+                  "fileSize",
+                  "File size is too large (maximum is 250 MB)",
+                  (value) => {
+                    if (value instanceof File && value.size) {
+                      return value.size <= 1024 * 1024 * 250; // 250 MB
+                    }
+                    return true; // Allow undefined values (when no file is selected)
+                  }
+                )
+                .test("fileType", "Invalid file type.", (value) => {
+                  if (value) {
+                    const supportedFormats = [
+                      "image/jpeg",
+                      "image/png",
+                      "application/pdf",
+                      "application/msword", // Word files (.doc)
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word files (.docx)
+                      "text/plain", // Text files (.txt)
+                      "application/vnd.ms-powerpoint", // PowerPoint files (.ppt)
+                      "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint files (.pptx)
+                    ];
+                    return supportedFormats.includes((value as File).type);
+                  }
+                  return true; // Allow undefined values (when no file is selected)
+                })
+            ),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             if (values) {
+              console.log("lesson update", values);
+              
               setStatus({ success: true });
               setSubmitting(false);
   
-              // const { data } = await api.updateUser(values);
+              const { data } = await api.UpdateLesson(values);
   
-              // openSuccessDialog(data.status, data.comment);
+              openSuccessDialog(data.status, data.comment);
               navigate("/users");
             }
           } catch (err: any) {

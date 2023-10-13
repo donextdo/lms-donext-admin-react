@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import * as Yup from "yup";
-import * as api from "../../../assets/api/index";
+import * as api from "../../../assets/api/lesson/index";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -74,7 +74,7 @@ function LessonCreation({ ...others }) {
         course: "",
         class: "",
         teacher: "",
-        videoContent: "", 
+        videoContent: "",
         videoUpload: undefined,
         lessonMaterial: [], // Initialize lessonMaterial as an array to store multiple files
         // mobile: "",
@@ -89,68 +89,83 @@ function LessonCreation({ ...others }) {
         course: Yup.string().required("Course is required"),
         class: Yup.string().required("Class is required"),
         teacher: Yup.string().required("Teacher is required"),
+        videoContent: Yup.string()
+          .required("Video Content Status is required")
+          .oneOf(
+            ["Available", "Not Available"],
+            "Invalid Video Content Status"
+          ),
         videoUpload: Yup.mixed()
-        .required("Vedio upload is required")
-        .test(
-          'fileSize',
-          'File size is too large (maximum is 250 MB)',
-          (value) => {
-            if (value instanceof File && value.size) {
-              return value.size <= 1024 * 1024 * 250; // 250 MB
+          // .required("Video upload is required")
+          .test(
+            "fileSize",
+            "File size is too large (maximum is 250 MB)",
+            (value) => {
+              if (value instanceof File && value.size) {
+                return value.size <= 1024 * 1024 * 250; // 250 MB
+              }
+              return true; // Allow undefined values (when no file is selected)
             }
-            return true; // Allow undefined values (when no file is selected)
-          }
-        )
-        .test(
-          'fileType',
-          'Invalid file type. Only MP4, MPEG, and QuickTime formats are allowed.',
-          (value) => {
-            if (value instanceof File && value.type) {
-              return ['video/mp4', 'video/mpeg', 'video/quicktime'].includes(value.type);
+          )
+          .test(
+            "fileType",
+            "Invalid file type. Only MP4, MPEG, and QuickTime formats are allowed.",
+            (value) => {
+              if (value instanceof File && value.type) {
+                const allowedFormats = [
+                  "video/mp4",
+                  "video/mpeg",
+                  "video/quicktime",
+                  "audio/mpeg",
+                  "audio/wav",
+                  "audio/m4a",
+                ];
+                return allowedFormats.includes(value.type);
+              }
+              return true; // Allow undefined values (when no file is selected)
             }
-            return true; // Allow undefined values (when no file is selected)
-          }
-        ),
+          ),
         lessonMaterial: Yup.array().of(
-            Yup.mixed()
-              .test(
-                'fileSize',
-                'File size is too large (maximum is 250 MB)',
-                (value) => {
-                  if (value instanceof File && value.size) {
-                    return value.size <= 1024 * 1024 * 250; // 250 MB
-                  }
-                  return true; // Allow undefined values (when no file is selected)
-                }
-              )
-              .test('fileType', 'Invalid file type.', (value) => {
-                if (value) {
-                    const supportedFormats = [
-                        'image/jpeg',
-                        'image/png',
-                        'application/pdf',
-                        'application/msword', // Word files (.doc)
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // Word files (.docx)
-                        'text/plain', // Text files (.txt)
-                        'application/vnd.ms-powerpoint', // PowerPoint files (.ppt)
-                        'application/vnd.openxmlformats-officedocument.presentationml.presentation' // PowerPoint files (.pptx)
-                      ];
-                  return supportedFormats.includes((value as File).type);
+          Yup.mixed()
+            .test(
+              "fileSize",
+              "File size is too large (maximum is 250 MB)",
+              (value) => {
+                if (value instanceof File && value.size) {
+                  return value.size <= 1024 * 1024 * 250; // 250 MB
                 }
                 return true; // Allow undefined values (when no file is selected)
-              })
-          ),
+              }
+            )
+            .test("fileType", "Invalid file type.", (value) => {
+              if (value) {
+                const supportedFormats = [
+                  "image/jpeg",
+                  "image/png",
+                  "application/pdf",
+                  "application/msword", // Word files (.doc)
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Word files (.docx)
+                  "text/plain", // Text files (.txt)
+                  "application/vnd.ms-powerpoint", // PowerPoint files (.ppt)
+                  "application/vnd.openxmlformats-officedocument.presentationml.presentation", // PowerPoint files (.pptx)
+                ];
+                return supportedFormats.includes((value as File).type);
+              }
+              return true; // Allow undefined values (when no file is selected)
+            })
+        ),
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
           if (values) {
+            console.log("values", values);
             setStatus({ success: true });
             setSubmitting(false);
 
-            // const { data } = await api.signUp(values);
+            const { data } = await api.createLesson(values);
 
-            // openSuccessDialog(data.status, data.comment);
-            navigate("/login");
+            openSuccessDialog(data.status, data.comment);
+            navigate("/users");
           }
         } catch (err: any) {
           setStatus({ success: false });
@@ -322,44 +337,41 @@ function LessonCreation({ ...others }) {
           </FormControl>
 
           <FormControl fullWidth>
-              <InputLabel
-                htmlFor="outlined-adornment-file-upload"
-                shrink={true}
-                sx={{ marginTop: 3, fontSize: "1.2rem", fontWeight: 400 }}
-              >
-                Lesson Materials
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-file-upload"
-                type="file"
-                name="lessonMaterial"
-                onBlur={handleBlur}
-                onChange={(e) => {
-                    const files = (e.target as HTMLInputElement).files;
-                    if (files) {
-                      const filesArray = Array.from(files);
-                      handleChange({
-                        target: {
-                          name: 'lessonMaterial',
-                          value: filesArray,
-                        },
-                      });
-                    }
-                  }}
-                sx={{ pl: 20 }}
-                inputProps={{
-                    multiple: true, // Allow multiple file selection
-                }}
-              />
-              {touched.lessonMaterial && errors.lessonMaterial && (
-                <FormHelperText
-                  error
-                  id="standard-weight-helper-text--register"
-                >
-                  {errors.lessonMaterial}
-                </FormHelperText>
-              )}
-            </FormControl>
+            <InputLabel
+              htmlFor="outlined-adornment-file-upload"
+              shrink={true}
+              sx={{ marginTop: 3, fontSize: "1.2rem", fontWeight: 400 }}
+            >
+              Lesson Materials
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-file-upload"
+              type="file"
+              name="lessonMaterial"
+              onBlur={handleBlur}
+              onChange={(e) => {
+                const files = (e.target as HTMLInputElement).files;
+                if (files) {
+                  const filesArray = Array.from(files);
+                  handleChange({
+                    target: {
+                      name: "lessonMaterial",
+                      value: filesArray,
+                    },
+                  });
+                }
+              }}
+              sx={{ pl: 20 }}
+              inputProps={{
+                multiple: true, // Allow multiple file selection
+              }}
+            />
+            {touched.lessonMaterial && errors.lessonMaterial && (
+              <FormHelperText error id="standard-weight-helper-text--register">
+                {errors.lessonMaterial}
+              </FormHelperText>
+            )}
+          </FormControl>
 
           <FormControl component="fieldset" fullWidth>
             <InputLabel

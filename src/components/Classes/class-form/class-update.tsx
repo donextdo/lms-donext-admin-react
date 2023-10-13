@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import * as Yup from "yup";
-import * as api from "../../../assets/api/index";
+import * as api from "../../../assets/api/class/index";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -74,9 +74,9 @@ function ClassUpdate({ selectedRowData, ...others }: UpdateClassProps) {
             setStatus({ success: true });
             setSubmitting(false);
 
-            // const { data } = await api.updateUser(values);
+            const { data } = await api.updateClass(values);
 
-            // openSuccessDialog(data.status, data.comment);
+            openSuccessDialog(data.status, data.comment);
             navigate("/classes");
           }
         } catch (err: any) {

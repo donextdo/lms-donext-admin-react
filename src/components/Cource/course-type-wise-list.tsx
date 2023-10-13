@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import LinearProgress from "@mui/material/LinearProgress";
 import {useNavigate} from 'react-router-dom';
 import UpdateUser from '../../components/Authentication/authentication/updateUser '
-import * as api from "../../assets/api";
+import * as api from "../../assets/api/course/index";
 import {openSuccessDialog} from "../../utils/ui-components/pop-ups/SuccessDialog";
 import {openErrorDialog} from "../../utils/ui-components/pop-ups/ErrorDialog";
 import EditIcon from '@mui/icons-material/Edit';
@@ -40,9 +40,11 @@ function CourseTypeWiseList({ data }: any) {
     };
 
 
-    const deleteCourse = async (userId: number) => {
+    const deleteCourse = async (courseId: number) => {
         try {
-            const response = await api.deleteUser(userId);
+            console.log("delete course",courseId);
+            
+            const response = await api.deleteCourse(courseId);
             if (response.status === 204) {
                 openSuccessDialog(data.status, data.comment);
                 navigate("/courses");
@@ -136,6 +138,8 @@ function CourseTypeWiseList({ data }: any) {
                                 `Are you sure you want to delete this course? Please enter 'confirm' to proceed.`,
                                 { id: params.formattedValue, action: "delete" },
                                 (data, values) => {
+                                    console.log("delete action");
+                                    
                                     if (values.comment === 'Confirm' || values.comment === 'confirm') {
                                     deleteCourse(params.row.id);
                                     }

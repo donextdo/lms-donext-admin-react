@@ -92,8 +92,10 @@ function AuthUserCreation({ ...others }) {
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
           if (values) {
-            setStatus({ success: true });
-            setSubmitting(false);
+            console.log("values", values);
+            
+            // setStatus({ success: true });
+            // setSubmitting(false);
 
             // const { data } = await api.signUp(values);
 
